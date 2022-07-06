@@ -1,4 +1,3 @@
-from distutils.log import error
 import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
@@ -57,5 +56,5 @@ for i in range(len(t)-1):
     ca[i+1] = temp[1]
 
 plt.plot(t,ca)
-plt.plot(t,SP,'b--')
+plt.plot(t,SP,'r--')
 plt.show()
