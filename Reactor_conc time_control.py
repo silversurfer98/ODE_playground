@@ -17,7 +17,7 @@ q = 100
 V = 100
 caf = 1
 
-t = np.linspace(0,20,200)
+t = np.linspace(0,60,600)
 
 # to keep track of ca at each time step 
 ca = np.zeros(len(t))
@@ -33,14 +33,19 @@ caf = np.zeros(len(t))
 
 SP = np.ones(len(t)) * 1.5
 # from 50 t SP is set to one
-SP[50:] = 1
+SP[200:] = 1
+SP[400:] = 0.5
 
 error = np.zeros(len(t))
 
 # PID consts
-kc = 1.0
-taui=1.0
-taud=0.0
+kc = 0.9
+taui = 10.0
+taud = 5.0
+
+Isum = 0
+LastError = 0
+Dsum = 0
 
 #this implementation does not give us full control over time so .............) 
 #ca = odeint(reactor,Ca0,t,args=(V,q,caf,))
@@ -49,11 +54,14 @@ taud=0.0
 for i in range(len(t)-1):
     # now we are gonna control feed conc to reech sp
     error[i] = SP[i] - Ca0
-    caf[i] = caf[0] + kc*error[i]
+    Isum = Isum + (kc/taui)*error[i]
+    Dsum = (kc/taud)*(error[i]-LastError)
+    caf[i] = caf[0] + kc*error[i] + Isum + Dsum
     temp = odeint(reactor,Ca0,[t[i],t[i+1]],args=(V,q,caf[i],))
     # set the next initial pt for next time step
     Ca0 = temp[1]
     ca[i+1] = temp[1]
+    LastError = error[i]
 
 plt.plot(t,ca)
 plt.plot(t,SP,'r--')
