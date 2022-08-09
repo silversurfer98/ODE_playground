@@ -12,3 +12,5 @@ _deps
 *.exe
 *.a
 /build
+# VSCode
+.vscode

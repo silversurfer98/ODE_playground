@@ -7,7 +7,7 @@ float k1,k2,k3,k4;
 float model(/*parameters*/float y, float t, float* args)
 {
     float dydt;
-    dydt = y* args[0] + args[1];
+    dydt = t * args[0] + args[1];
     return dydt;
 }
 

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # define a function which will return dy/dt
 
 def model(y,t,arg1,arg2):
-    dydt = y*arg1 + arg2
+    dydt = t*arg1 + arg2
     return dydt
 
 # define intial condition
